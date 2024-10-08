@@ -48,4 +48,10 @@ public class UserServiceImpl {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
+    @Transactional(readOnly = true)
+    public UserSaveResponse getUser(String username) {
+        return userMapper.toUserSaveResponse(userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found")));
+    }
 }

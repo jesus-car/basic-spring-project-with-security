@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static com.newproject.basicprojectskeleton.configuration.security.filter.JwtTokenConfig.*;
+import static com.newproject.basicprojectskeleton.util.JwtTokenConfig.*;
 
 public class JwtValidationFilter extends BasicAuthenticationFilter {
 
@@ -52,7 +52,12 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
                         .readValue(authoritiesClaims.toString().getBytes(), SimpleGrantedAuthority[].class));
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
                 chain.doFilter(request, response);
+            } else {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("Invalid token");
+                response.getWriter().flush();
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);

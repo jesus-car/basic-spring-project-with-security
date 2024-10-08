@@ -21,14 +21,14 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
-import static com.newproject.basicprojectskeleton.configuration.security.filter.JwtTokenConfig.*;
+import static com.newproject.basicprojectskeleton.util.JwtTokenConfig.*;
 
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-
+    public static final Date DATE_EXPIRATION = new Date(System.currentTimeMillis() + 3600000);
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -63,8 +63,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = user.getUsername();
 
         Claims claims = Jwts.claims()
-                .add("username", username)
                 .add("authorities", new ObjectMapper().writeValueAsString(user.getAuthorities()))
+                .subject(username)
                 .build();
 
         String token = Jwts.builder()

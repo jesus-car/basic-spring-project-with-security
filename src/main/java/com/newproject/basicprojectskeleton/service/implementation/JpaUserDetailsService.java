@@ -25,10 +25,6 @@ public class JpaUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userService.findByUsername(username);
 
-        if (userEntity == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
         List<GrantedAuthority> authorities = userEntity.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
