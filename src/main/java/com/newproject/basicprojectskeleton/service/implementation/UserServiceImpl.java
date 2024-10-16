@@ -6,6 +6,7 @@ import com.newproject.basicprojectskeleton.persistence.repository.RoleRepository
 import com.newproject.basicprojectskeleton.persistence.repository.UserRepository;
 import com.newproject.basicprojectskeleton.presentation.dto.input.UserSaveRequest;
 import com.newproject.basicprojectskeleton.presentation.dto.output.UserSaveResponse;
+import com.newproject.basicprojectskeleton.util.RoleEnum;
 import com.newproject.basicprojectskeleton.util.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,10 +32,10 @@ public class UserServiceImpl {
         UserEntity userEntity = userMapper.toUserEntity(userSaveRequest);
 
         Set<Role> roles = new HashSet<>();
-        roleRepository.findByName("ROLE_USER").ifPresent(roles::add);
+        roleRepository.findByName(RoleEnum.ROLE_USER).ifPresent(roles::add);
 
         if(userEntity.isAdmin())
-            roleRepository.findByName("ROLE_ADMIN").ifPresent(roles::add);
+            roleRepository.findByName(RoleEnum.ROLE_ADMIN).ifPresent(roles::add);
 
         userEntity.setRoles(roles);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));

@@ -25,10 +25,17 @@ public class JpaUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userService.findByUsername(username);
 
+        // Se diferencian los roles de los permisos por el prefijo "ROLE_"
         List<GrantedAuthority> authorities = userEntity.getRoles()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
+
+        userEntity.getRoles().forEach(role -> {
+            role.getPermissions().forEach(permission -> {
+                authorities.add(new SimpleGrantedAuthority(permission.getName()));
+            });
+        });
 
         return User.builder()
                 .username(userEntity.getUsername())

@@ -28,7 +28,7 @@ import static com.newproject.basicprojectskeleton.util.JwtTokenConfig.*;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-    public static final Date DATE_EXPIRATION = new Date(System.currentTimeMillis() + 3600000);
+    protected static final Date DATE_EXPIRATION = new Date(System.currentTimeMillis() + 3600000);
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
