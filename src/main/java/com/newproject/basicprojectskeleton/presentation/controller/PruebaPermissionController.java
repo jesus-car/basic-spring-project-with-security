@@ -1,10 +1,13 @@
 package com.newproject.basicprojectskeleton.presentation.controller;
 
+import com.newproject.basicprojectskeleton.presentation.advice.SecurityErrorHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authorization.method.HandleAuthorizationDenied;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/prueba-permission")
+@HandleAuthorizationDenied(handlerClass = SecurityErrorHandler.class)
 public class PruebaPermissionController {
 
     @PreAuthorize("hasAuthority('READ')")
