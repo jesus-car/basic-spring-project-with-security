@@ -5,8 +5,7 @@ import com.newproject.basicprojectskeleton.presentation.dto.output.UserSaveRespo
 import com.newproject.basicprojectskeleton.service.implementation.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.authentication.password.CompromisedPasswordDecision;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserServiceImpl userService;
     private final CompromisedPasswordChecker compromisedPasswordChecker;
-    private final Logger log = LogManager.getLogger(UserController.class);
 
     @PostMapping("/register")
     public UserSaveResponse saveUser(@Valid @RequestBody UserSaveRequest userSaveRequest) {
