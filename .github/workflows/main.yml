@@ -25,6 +25,7 @@ jobs:
       - name: Listar jar
         run: ls -la target
       - run: pwd
+      - run: echo $HOME
 #      -
 #        name: Set up QEMU
 #        uses: docker/setup-qemu-action@v3
