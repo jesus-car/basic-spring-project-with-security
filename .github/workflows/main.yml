@@ -14,3 +14,8 @@ jobs:
         run: echo "hola mundo GA"
       - name: Muestra el contenido del directorio
         run: ls -la
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto' # See 'Supported distributions' for available options
+          java-version: '21'
+      - run: java --version
