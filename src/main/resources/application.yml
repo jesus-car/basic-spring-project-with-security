@@ -3,10 +3,12 @@ spring:
     name: basic-project-skeleton
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-#    url: jdbc:mysql://localhost:3306/demo?useSSL=false&serverTimezone=UTC
-    url: jdbc:mysql://db-demo.c9qq8ucagixn.us-east-1.rds.amazonaws.com:3306/demo?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
-    password: asdacmdk27123
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+#    username: root
+#    url: jdbc:mysql://database-1.c9qq8ucagixn.us-east-1.rds.amazonaws.com:3306/demo?useSSL=false&serverTimezone=UTC
+#    password: Asdacmdk27
 
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
