@@ -20,7 +20,8 @@ jobs:
           java-version: '21'
       - run: java --version
       - run: chmod +x mvnw
+      - run: ./mvnw dependency:go-offline
       - name: Build with Maven
-        run: ./mvnw clean package --file pom.xml -DSkipTests
+        run: ./mvnw clean package --file pom.xml -DskipTests
       - name: Listar jar
         run: ls -la target
