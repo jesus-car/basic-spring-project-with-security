@@ -19,3 +19,7 @@ jobs:
           distribution: 'corretto' # See 'Supported distributions' for available options
           java-version: '21'
       - run: java --version
+      - name: Build with Maven
+        run: ./mvnw -B package --file pom.xml
+      - name: Listar jar
+        run: ls -la target
