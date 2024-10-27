@@ -38,6 +38,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       - name: Docker login
-        run: echo "asdacmdk27" | docker login -u jesuscar --password-stdin
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       - name: Build Docker image
         run: docker build -t jesuscar/ci-demo .
+      - name: Push Docker image
+        run: docker push jesuscar/ci-demo
