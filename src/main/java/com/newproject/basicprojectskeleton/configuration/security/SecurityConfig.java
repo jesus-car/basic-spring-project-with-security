@@ -33,15 +33,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, REGISTER).permitAll()
-                        .anyRequest().authenticated())
+//                        .requestMatchers(HttpMethod.POST, REGISTER).permitAll()
+//                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))
                 .csrf(AbstractHttpConfigurer::disable)
