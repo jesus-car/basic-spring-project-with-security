@@ -52,5 +52,6 @@ jobs:
         run:  echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > primerkey.pem
       - name: Deploy to EC2
         run: |
-          ssh -i "primerkey.pem" ubuntu@ec2-54-224-76-223.compute-1.amazonaws.com
-          echo "Conectado a EC2"
+          ssh -i -o StrictHostKeyChecking=no -t "primerkey.pem" ubuntu@ec2-54-224-76-223.compute-1.amazonaws.com << 'EOF'
+            echo "Conectado a EC2"
+          EOF
