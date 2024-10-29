@@ -59,7 +59,7 @@ jobs:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKERHUB_TOKEN}}
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-224-76-223.compute-1.amazonaws.com
+          ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-224-76-223.compute-1.amazonaws.com << 'EOF'
             # Autenticar en Docker Hub
             docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
 
@@ -72,3 +72,4 @@ jobs:
 
             # Correr el contenedor con la nueva imagen
             docker run -d --name backend-integration --restart always -p 8080:8080 jesuscar/ci-demo:latest
+          EOF
