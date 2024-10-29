@@ -48,12 +48,15 @@ jobs:
         run: docker build -t jesuscar/ci-demo .
       - name: Push Docker image
         run: docker push jesuscar/ci-demo
-      - name: Setup SSH for EC2
-        uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
-        with:
-          EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
-          EC2_URL: $EC2_URL
-    # then you can run commands/scripts directly on the EC2 instance e.g.:
+      - name: SSH into EC2
+        run: |
+          ssh -i $EC2_SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
+            docker pull jesuscar/ci-demo:latest
+            docker stop backend-integration || true
+            docker rm backend-integration || true
+            docker run -d --name backend-integration --restart always -p 8080:8080 jesuscar/ci-demo:latest
+          EOF
+      # then you can run commands/scripts directly on the EC2 instance e.g.:
       - name: Deploy to EC2
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKERHUB_TOKEN}}
