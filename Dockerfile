@@ -4,6 +4,6 @@ FROM eclipse-temurin:21.0.4_7-jdk
 EXPOSE 8080
 WORKDIR /root
 
-COPY target/basic-project-skeleton-0.0.1-SNAPSHOT.jar /root/app.jar
+COPY target/ci-demo.jar /root/ci-demo.jar
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "ci-demo.jar"]

@@ -191,6 +191,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>ci-demo</finalName>
 	</build>
 
 </project>
