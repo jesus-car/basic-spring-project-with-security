@@ -49,28 +49,8 @@ jobs:
       - name: Push Docker image
         run: docker push jesuscar/ci-demo
       - name : SSH to EC2
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          eval $(ssh-agent -s)
-          ssh-add ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ secrets.EC2_URL }}" >> ~/.ssh/known_hosts
+        run:  echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > primerkey.pem
       - name: Deploy to EC2
-        env:
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKERHUB_TOKEN}}
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-224-76-223.compute-1.amazonaws.com
-          # Autenticar en Docker Hub
-          docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
-
-          # Descargar la última versión de la imagen
-          docker pull jesuscar/ci-demo:latest
-
-          # Detener y eliminar el contenedor existente
-          docker stop backend-integration || true
-          docker rm backend-integration || true
-
-          # Correr el contenedor con la nueva imagen
-          docker run -d --name backend-integration --restart always -p 8080:8080 jesuscar/ci-demo:latest
+          ssh -i "primerkey.pem" ubuntu@ec2-54-224-76-223.compute-1.amazonaws.com
+          echo "Conectado a EC2"
